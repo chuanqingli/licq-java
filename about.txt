@@ -1,0 +1,21 @@
+emacs --script build.el run-build-cmd
+emacs --script build.el run-clear-cmd
+
+emacs --script build.el run-test-cmd licq.util.DataUtil
+
+emacs --script build.el run-resin-cmd book_tianya_cn.conf
+sh /media/win/E/chuanqing/workspace/repository/lisp/resinstart.sh book_tianya_cn.conf
+sh /media/win/E/chuanqing/workspace/repository/lisp/icestart.sh
+
+--20.69重启
+sh /usr/java/resin-3.0.22/bin/httpd.sh restart
+sh /usr/java/resin-3.0.22/bin/httpd.sh stop
+--20.54重启
+sh /www/app/tianya_fw_server/bin/ice.sh restart
+sh /www/app/tianya_fw_server/bin/ice.sh stop
+
+
+
+emacs --script build.el run-builddoc-cmd
+emacs --script build.el chk-jar-files
+emacs --script build.el run-test-cmd cn.tianya.wap3g.test.Test
