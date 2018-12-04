@@ -9,13 +9,13 @@ import java.lang.reflect.*;
 public class DataUtil{
     private static final Logger logger = LoggerFactory.getLogger(DataUtil.class);
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    // private static ObjectMapper mapper = new ObjectMapper();
 
-    public static <T> T toData(Object oo,T cc){
+    public <T> T toData(Object oo,T cc){
         return toData(oo,cc,false);
     }
     //空或异常时，返回默认值;bthrow异常时是否抛出
-    public static <T> T toData(Object oo,T cc,boolean isthrow){
+    public <T> T toData(Object oo,T cc,boolean isthrow){
         if(cc==null)return null;
         if(oo==null)return cc;
 
@@ -46,27 +46,8 @@ public class DataUtil{
         return (T)oo;
     }
 
-    public static String toJson(Object obj){
-        try{
-            return JSONObject.fromObject(obj).toString();
-            // return mapper.writeValueAsString(obj);
-        }catch(Exception err){
-            logger.info(err.toString());
-            return toData(obj,"");
-        }
-
-        // if(obj==null)return null;
-
-
-        // com.alibaba.fastjson.JSONObject obj2 = com.alibaba.fastjson.JSONObject.parseObject(obj);
-
-        // // JSONObject obj2 =JSONObject.fromObject(obj);
-        // if(obj2==null)return null;
-        // return obj2.toString();
-    }
-
     //不定长参数转List
-    public static <T> List<T> args2List(T... list){
+    public <T> List<T> toList(T... list){
         List<T> resp = new ArrayList<T>();
         if(list==null||list.length<=0)return resp;
         for(int i=0;i<list.length;i++){
@@ -75,8 +56,71 @@ public class DataUtil{
         return resp;
     }
 
+    public <T> Set<T> toSet(List<T> list){
+        Set<T> resp = new LinkedHashSet<T>();
+        if(list==null||list.size()<=0)return resp;
+        for(int i=0;i<list.size();i++){
+            resp.add(list.get(i));
+        }
+        return resp;
+    }
+
+
+    public <T> Set<T> toSet(T... list){
+        Set<T> resp = new LinkedHashSet<T>();
+        if(list==null||list.length<=0)return resp;
+        for(int i=0;i<list.length;i++){
+            resp.add(list[i]);
+        }
+        return resp;
+    }
+
+    public <A,B> Map<A,B> toMap(List<A> name,List<B> obj){
+        Map<A,B> resp = new LinkedHashMap<A,B>();
+        if(name==null)return resp;
+        if(obj==null||obj.size()<name.size())return resp;
+
+        for(int i=0;i<name.size();i++){
+            resp.put(name.get(i),obj.get(i));
+        }
+        return resp;
+    }
+
+    public <A,B> Map<A,B> toMap(A[] name,B[] obj){
+        Map<A,B> resp = new LinkedHashMap<A,B>();
+        if(name==null)return resp;
+        if(obj==null||obj.length<name.length)return resp;
+
+        for(int i=0;i<name.length;i++){
+            resp.put(name[i],obj[i]);
+        }
+        return resp;
+    }
+
+    public <A,B> Map<A,B> toMap(JSONObject json,A aa,B bb){
+        Map<A,B> resp = new LinkedHashMap<A,B>();
+        if(json==null||json.size()<=0)return resp;
+        for(Object key : json.keySet()){//不能用Iterator iter = json.keys();，报错
+            A aaa = toData(key,aa);
+            B bbb = toData(json.get(key),bb);
+            resp.put(aaa,bbb);
+        }
+        return resp;
+    }
+
+    public <A,B> Map<A,B> toMap(Map json,A aa,B bb){
+        Map<A,B> resp = new LinkedHashMap<A,B>();
+        if(json==null)return resp;
+        for(Object key : json.keySet()){//不能用Iterator iter = json.keys();，报错
+            A aaa = toData(key,aa);
+            B bbb = toData(json.get(key),bb);
+            resp.put(aaa,bbb);
+        }
+        return resp;
+    }
+
     //不定长参数转字符串
-    public static String args2Str(Object... list){
+    public String toStr(Object... list){
         if(list==null||list.length<=0)return "";
         StringBuilder sBuf = new StringBuilder(1024);
         for(int i=0;i<list.length;i++){
@@ -86,30 +130,11 @@ public class DataUtil{
         return sBuf.toString();
     }
 
-    public static String args2Sql(Object... list){
-        if(list==null||list.length<=0)return "''";
-        StringBuilder sBuf = new StringBuilder(1024);
-        for(int i=0;i<list.length;i++){
-            if(list[i]==null)continue;
-            sBuf.append(list[i]);
-        }
-
-        return args2Str("'",sBuf.toString().replace("'","''"),"'");
+    public String toSql(Object... list){
+        return toStr("'",toStr(list).replace("'","''"),"'");
     }
 
-
-    // public static <A,B> List<B> createList(List<A> list,B bb){
-    //     if(list==null)return null;
-    //     List<B> resp = new ArrayList<B>();
-    //     for(A aa : list){
-    //         B bbb = toData(aa,bb,null);
-    //         resp.add(bbb);
-    //     }
-    //     return resp;
-    // }
-
-
-    public static <T> Set<List<T>> list2Set_2(List<Map<String,Object>> list,List<String> names,T cc){
+    public <T> Set<List<T>> filterSet(List<Map<String,Object>> list,List<String> names,T cc){
         Set<List<T>> set = new LinkedHashSet<List<T>>();
         if(list==null||list.size()<=0)return set;
         for(Map<String,Object> map : list){
@@ -123,7 +148,7 @@ public class DataUtil{
         return set;
     }
 
-    public static Set<List<Object>> list2Set_2(List<Map<String,Object>> list,List<String> names){
+    public Set<List<Object>> filterSet(List<Map<String,Object>> list,List<String> names){
         Set<List<Object>> set = new LinkedHashSet<List<Object>>();
         if(list==null||list.size()<=0)return set;
         for(Map<String,Object> map : list){
@@ -137,8 +162,8 @@ public class DataUtil{
     }
 
 
-    public static <T> Map<List<T>,Map<String,Object>> list2Map_2(List<Map<String,Object>> list,List<String> names,T cc){
-        Map<List<T>,Map<String,Object>> resp = new HashMap<List<T>,Map<String,Object>>();
+    public <T> Map<List<T>,Map<String,Object>> filterMap(List<Map<String,Object>> list,List<String> names,T cc){
+        Map<List<T>,Map<String,Object>> resp = new LinkedHashMap<List<T>,Map<String,Object>>();
         if(list==null||list.size()<=0)return resp;
         for(Map<String,Object> map : list){
             List<T> tmplist = new ArrayList<T>();
@@ -151,8 +176,8 @@ public class DataUtil{
         return resp;
     }
 
-    public static Map<List<Object>,Map<String,Object>> list2Map_2(List<Map<String,Object>> list,List<String> names){
-        Map<List<Object>,Map<String,Object>> resp = new HashMap<List<Object>,Map<String,Object>>();
+    public Map<List<Object>,Map<String,Object>> filterMap(List<Map<String,Object>> list,List<String> names){
+        Map<List<Object>,Map<String,Object>> resp = new LinkedHashMap<List<Object>,Map<String,Object>>();
         if(list==null||list.size()<=0)return resp;
         for(Map<String,Object> map : list){
             List<Object> tmplist = new ArrayList<Object>();
@@ -165,33 +190,21 @@ public class DataUtil{
     }
 
     //从list中，取键名为name的记录组成Set
-    public static <T> Set<T> list2Set(List<Map<String,Object>> list,String name,T cc){
+    public <T> Set<T> filterSet(List<Map<String,Object>> list,String name,T cc){
         Set<T> set = new LinkedHashSet<T>();
         if(list==null||list.size()<=0)return set;
         for(Map<String,Object> map : list){
-            T sortid = toData(map.get(name),cc);//CommonUtil.GetReqLong(map.get("sortid"));
+            T sortid = toData(map.get(name),cc);
             set.add(sortid);
         }
         return set;
     }
 
-
-    public static <T> Set<T> list2Set(List<T> list){
-        if(list==null||list.size()<=0)return new LinkedHashSet<T>();
-        return new LinkedHashSet<T>(list);
-    }
-
-    public static <T> Set<T> args2Set(T... list){
-        if(list==null||list.length<=0)return new LinkedHashSet<T>();
-        List<T> list1 = Arrays.asList(list);
-        return list2Set(list1);
-    }
-
     //并集+;差集-;交集*
-    public static <T> Set<T> setOpSet(String flag,Set<T> t0,Set<T> t1){
+    public <T> Set<T> operateSet(String flag,Set<T> t0,Set<T> t1){
         if(t0==null)t0=new HashSet<T>();
         if(t1==null)t1=new HashSet<T>();
-        final Set<String> flagset = args2Set("+","-","*");
+        final Set<String> flagset = toSet("+","-","*");
         if(!flagset.contains(flag))return t0;
         Set<T> resp = new HashSet<T>(t0);
         if("+".equals(flag)){
@@ -204,47 +217,15 @@ public class DataUtil{
         return resp;
     }
 
-    public static <T> Set<T> str2Set(String s,String regex,T cc){
+    public <T> Set<T> splitStringToSet(String s,String regex,T cc){
         Set<T> set = new LinkedHashSet<T>();
         if(s==null||s.length()<=0)return set;
-        String[] ss = s.split(regex);
-        for(String sss : ss){
-            T sortid = toData(sss,cc);//CommonUtil.GetReqLong(map.get("sortid"));
-            set.add(sortid);
-        }
-        return set;
+        if(regex==null)regex="";
+        return toSet(s.split(regex),cc);
     }
 
-    public static <A,B> Map<A,B> list2Map(List<A> name,List<B> obj,Map<A,B> resp){
-        if(resp==null)resp = new HashMap<A,B>();
-        if(name==null)return resp;
-        if(obj==null||obj.size()<name.size())return resp;
-
-        for(int i=0;i<name.size();i++){
-            resp.put(name.get(i),obj.get(i));
-        }
-        return resp;
-    }
-
-    public static <A,B> Map<A,B> list2Map(List<A> name,List<B> obj){
-        return list2Map(name,obj,null);
-    }
-
-    public static <A,B> Map<A,B> arr2Map(A[] name,B[] obj){
-        return arr2Map(name,obj,null);
-    }
-
-    public static <A,B> Map<A,B> arr2Map(A[] name,B[] obj,Map<A,B> resp){
-        if(resp==null)resp = new HashMap<A,B>();
-        if(name==null)return resp;
-        if(obj==null||obj.length<name.length)return resp;
-        List<A> aaa = Arrays.asList(name);
-        List<B> bbb = Arrays.asList(obj);
-        return list2Map(aaa,bbb,resp);
-    }
-
-    public static Map<String,String> arr2Map(String[] name,Object[] obj,Map<String,String> resp){
-        if(resp==null)resp = new HashMap<String,String>();
+    public Map<String,String> toStringMap(String[] name,Object[] obj,Map<String,String> resp){
+        if(resp==null)resp = new LinkedHashMap<String,String>();
         if(name==null)return resp;
         if(obj==null||obj.length<name.length)return resp;
         for(int i=0;i<name.length;i++){
@@ -253,8 +234,8 @@ public class DataUtil{
         return resp;
     }
 
-    public static <A,B> Map<A,B> json2Map(String json,A aa,B bb){
-        if(json==null||json.length()<=0)return new HashMap<A,B>();
+    public <A,B> Map<A,B> json2Map(String json,A aa,B bb){
+        if(json==null||json.length()<=0)return new LinkedHashMap<A,B>();
         JSONObject jsonobj = null;
         try{
             jsonobj = JSONObject.fromObject(json);
@@ -262,41 +243,20 @@ public class DataUtil{
         return json2Map(jsonobj,aa,bb);
     }
 
-    public static <A,B> Map<A,B> json2Map(JSONObject json,A aa,B bb){
-        Map<A,B> resp = new HashMap<A,B>();
-        if(json==null||json.size()<=0)return resp;
-        for(Object key : json.keySet()){//不能用Iterator iter = json.keys();，报错
-            A aaa = toData(key,aa);
-            B bbb = toData(json.get(key),bb);
-            resp.put(aaa,bbb);
-        }
-        return resp;
-    }
 
-    public static <A,B> Map<A,B> json2Map(Map json,A aa,B bb){
-        Map<A,B> resp = new HashMap<A,B>();
-        if(json==null)return resp;
-        for(Object key : json.keySet()){//不能用Iterator iter = json.keys();，报错
-            A aaa = toData(key,aa);
-            B bbb = toData(json.get(key),bb);
-            resp.put(aaa,bbb);
-        }
-        return resp;
-    }
-
-    public static <A,B> Map<A,B> req2Map(javax.servlet.ServletRequest request){
-        if(request==null)return new HashMap<A,B>();
+    public <A,B> Map<A,B> req2Map(javax.servlet.ServletRequest request){
+        if(request==null)return new LinkedHashMap<A,B>();
         return request.getParameterMap();
     }
 
     //并集+;差集-;交集*
-    public static <A,B> Map<A,B> mapOpSet(String flag,Map<A,B> t0,Set<A> t1){
-        if(t0==null)t0=new HashMap<A,B>();
-        if(t1==null)t1=new HashSet<A>();
+    public <A,B> Map<A,B> mapOpSet(String flag,Map<A,B> t0,Set<A> t1){
+        if(t0==null)t0=new LinkedHashMap<A,B>();
+        if(t1==null)t1=new LinkedHashSet<A>();
 
-        final Set<String> flagset = args2Set("-","*");
+        final Set<String> flagset = toSet("-","*");
         if(!flagset.contains(flag))return t0;
-        Map<A,B> resp = new HashMap<A,B>(t0);
+        Map<A,B> resp = new LinkedHashMap<A,B>(t0);
         if("-".equals(flag)){
             resp.keySet().removeAll(t1);
         }else if("*".equals(flag)){
@@ -308,8 +268,8 @@ public class DataUtil{
         return resp;
     }
 
-    public static <K,A,B> Map<K,Map<A,B>> list2Map(List<Map<A,B>> list,A fieldname,K keyval){
-        Map<K,Map<A,B>> resp = new HashMap<K,Map<A,B>>();
+    public <K,A,B> Map<K,Map<A,B>> list2Map(List<Map<A,B>> list,A fieldname,K keyval){
+        Map<K,Map<A,B>> resp = new LinkedHashMap<K,Map<A,B>>();
         if(list==null||list.size()<=0)return resp;
         if(fieldname==null||keyval==null)return resp;
         for(Map<A,B> map : list){
@@ -319,8 +279,8 @@ public class DataUtil{
         return resp;
     }
 
-    public static <K,A,B> Map<K,List<Map<A,B>>> list2Map_3(List<Map<A,B>> list,A fieldname,K keyval){
-        Map<K,List<Map<A,B>>> resp = new HashMap<K,List<Map<A,B>>>();
+    public <K,A,B> Map<K,List<Map<A,B>>> list2Map_3(List<Map<A,B>> list,A fieldname,K keyval){
+        Map<K,List<Map<A,B>>> resp = new LinkedHashMap<K,List<Map<A,B>>>();
         if(list==null||list.size()<=0)return resp;
         if(fieldname==null||keyval==null)return resp;
         for(Map<A,B> map : list){
@@ -333,88 +293,5 @@ public class DataUtil{
             list2.add(map);
         }
         return resp;
-    }
-
-    public static void map2Map(Map<String,Object> inmap,Map<String,Object> outmap,String... args){
-        if(inmap==null||inmap.size()<=0)return;
-        if(args==null||args.length<=0)return;
-        if(outmap==null)outmap=new HashMap<String,Object>();
-
-        for(String ss : args){
-            if(!inmap.containsKey(ss))continue;
-            outmap.put(ss,inmap.get(ss));
-        }
-    }
-
-    // public static String checkEmptyMapKey(Map<String,Object> inmap,String... args){
-    //     if(inmap==null||inmap.size()<=0)return null;
-    //     for(String ss : args){
-    //         if(!inmap.containsKey(ss)) return ss;
-    //     }
-    // }
-
-    public static void main00(String[] args){
-        Map resp0 = arr2Map(new Integer[]{12,13,15,78},new String[]{"22","33","55","你好，测试"});
-        Map resp1 = arr2Map(new String[]{"12","13","15","78"},new String[]{"22","33","55","你好，测试"});
-
-        Map<Integer,String> resp = new HashMap<Integer,String>();
-        resp.putAll(resp0);
-        logger.debug(toJson(resp));
-        logger.debug("resp==>" + resp.get(78));
-        Map<Long,String> resp2 = json2Map(toJson(resp),0l,"");
-        logger.debug(toJson(resp2));
-        logger.debug("resp2==>" + resp2.get(78l));
-    }
-
-    public static void main01(String[] args){
-
-        Map<String,Object> resp0 = arr2Map(new String[]{"100","99","12","13","15","78"},new Object[]{100,99,22,33,55,"你好，测试"},new LinkedHashMap<String,Object>());
-        Map<String,String> resp1 = json2Map(resp0,"","");
-        Map<String,String> resp2 = new LinkedHashMap<String,String>();
-        resp2.putAll(resp1);
-        logger.debug(toJson(resp0));
-        logger.debug(toJson(resp1));
-        logger.debug(toJson(resp2));
-
-        // Map<String,String> resp1 = createMap("-",resp0,createSet("12","13"));
-        // Map<String,String> resp2 = createMap("*",resp0,createSet("12","13"));
-        // // Map<Integer,String> resp = createMap(resp0,0,"");
-
-        // // // Map resp0 = createMap(new Integer[]{12,13,15,78},new Integer[]{22,33,55,78});
-        // // // Map<Integer,Integer> resp = new HashMap<Integer,Integer>();
-        // // // resp.putAll(resp0);
-        // logger.debug(toJson(resp1));
-        // logger.debug(toJson(resp2));
-        // logger.debug("resp==>" + resp.get(78));
-        // Map<Long,Long> resp2 = createMap(toJson(resp),0l,0l);
-        // logger.debug(toJson(resp2));
-        // logger.debug("resp2==>" + resp2.get(78l));
-    }
-
-    private static class tttt{
-        public int aa = 0;
-        public long bb = 2l;
-        public float cc = 3f;
-        public String dd = "测试";
-    }
-
-
-    public static void main(String[] args){
-        logger.info("bbbb==>" + toJson(null));
-        logger.info("cccc==>" + toJson(""));
-        logger.info("dddd==>" + toJson(new HashMap()));
-        logger.info("eeee==>" + toJson(new tttt()));
-        logger.info("hhhh==>" + toJson(new Long("55342")));
-        logger.debug(null + "aaaa");
-        // String sjson = "{\"fname\":\"MoMaxTime\",\"gwtype\":1008,\"rstime\":\"2016-09-26 11:13:49.870\"}";
-        // Map<String,Object> map = toMap(sjson);
-        // logger.debug("" + CommonUtil.GetReqNo(map.get("gwtype")));
-        // logger.debug("" + Integer.MIN_VALUE);
-        // Object tt = null;
-        // Object aa = toData("13.5",tt,null);
-        // Object bb = toData(13.5,tt,null);
-        // logger.debug("aa=>" + aa);
-        // logger.debug("bb=>" + bb);
-        // logger.debug("tt=>" + CommonUtil.GetReqNo("16.87"));
     }
 }
