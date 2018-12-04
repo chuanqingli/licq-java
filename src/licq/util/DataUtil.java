@@ -6,6 +6,12 @@ import net.sf.json.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import java.lang.reflect.*;
 
+/**
+强制转化成字符串或数字;
+快速构造List、Set、Map;
+由List<Map<String,Object>>构造出List、Set、Map
+
+ */
 public class DataUtil{
     private static final Logger logger = LoggerFactory.getLogger(DataUtil.class);
 
@@ -217,12 +223,12 @@ public class DataUtil{
         return resp;
     }
 
-    public <T> Set<T> splitStringToSet(String s,String regex,T cc){
-        Set<T> set = new LinkedHashSet<T>();
-        if(s==null||s.length()<=0)return set;
-        if(regex==null)regex="";
-        return toSet(s.split(regex),cc);
-    }
+    // public <T> Set<T> splitStringToSet(String s,String regex,T cc){
+    //     Set<T> set = new LinkedHashSet<T>();
+    //     if(s==null||s.length()<=0)return set;
+    //     if(regex==null)regex="";
+    //     return toSet(s.split(regex),cc);
+    // }
 
     public Map<String,String> toStringMap(String[] name,Object[] obj,Map<String,String> resp){
         if(resp==null)resp = new LinkedHashMap<String,String>();
@@ -240,7 +246,7 @@ public class DataUtil{
         try{
             jsonobj = JSONObject.fromObject(json);
         }catch(Exception err){}
-        return json2Map(jsonobj,aa,bb);
+        return toMap(jsonobj,aa,bb);
     }
 
 
