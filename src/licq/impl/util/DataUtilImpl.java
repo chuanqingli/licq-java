@@ -47,4 +47,14 @@ public final class DataUtilImpl implements DataUtil{
         if(JSONNull.getInstance().equals(oo))return cc;
         return (T)oo;
     }
+
+    // public <T> T[] toDatas(Object[] oo,T cc){
+    //     if(oo==null)return null;
+    //     List<T>
+    //     T[] resp = new T[oo.length];
+    //     for(int i=0;i<resp.length;i++){
+    //         resp[i] = toData(oo[i],cc);
+    //     }
+    //     return resp;
+    // }
 }
