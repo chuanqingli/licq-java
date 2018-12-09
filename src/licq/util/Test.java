@@ -5,7 +5,8 @@ import licq.impl.util.*;
 import java.math.*;
 
 import net.sf.json.JSONNull;
-import java.sql.*;
+import java.sql.Timestamp;
+import java.sql.Time;
 
 public class Test{
 
@@ -14,9 +15,6 @@ public class Test{
     public static void main(String[] args){
         // Timestamp ttt = Timestamp.valueOf("2008-12-31 15:20:30.9999");
         // Timestamp ttt = new Timestamp.valueOf("2008-12-31 15:20:30.9999");
-        Timestamp[] ttt = new Timestamp[]{Timestamp.valueOf("2008-12-31 15:20:30.9999"),Timestamp.valueOf("8-12-31 15:20"),new Timestamp(-1)};
-        for(Timestamp tt : ttt)
-        System.out.println(tt);
 
 
         // CollectionUtil util = CollectionUtilImpl.getInstance();
@@ -42,13 +40,23 @@ public class Test{
         // System.out.println(pp);
         // System.out.println("+++++++++++++++");
         DataUtil du = DataUtilImpl.getInstance();
+        Object tt = du.toData("Sun Dec 09 15:54:47 CST 2018",new Date(0l),true);
+        // Object[] ooo = new Object[]{
+        //     // du.toData("2018-12-3 15:20:30.99",new Date(0l),true)
+        //     du.toData("2018-12-3 15:20:30.99",new Time(0l),true)
+        //     ,du.toData("2018-12-3 15:20:30.99",new Timestamp(0l),true)
+
+        //            };
+
+        // for(Object tt : ooo)
+            System.out.println(tt.getClass() + "==>" + tt);
 
 
         // // Number tt = new BigInteger("999");
         // String tt = "";
         // // BigDecimal tt = new BigDecimal("999");
         // // Long tt = new Long("999");
-        java.util.Date tt = new java.util.Date();
+        // java.util.Date tt = new java.util.Date();
         // Object pp = du.toData(3600*1000,tt,true);
         // Object pp = du.toData("2015-5-5",tt,true);
         // Object pp = du.toData("2018-56-987",tt,true);
