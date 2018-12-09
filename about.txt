@@ -1,7 +1,7 @@
 emacs --script build.el run-build-cmd
 emacs --script build.el run-clear-cmd
 
-emacs --script build.el run-test-cmd licq.util.DataUtil
+emacs --script build.el run-test-cmd licq.util.Test
 
 emacs --script build.el run-resin-cmd book_tianya_cn.conf
 sh /media/win/E/chuanqing/workspace/repository/lisp/resinstart.sh book_tianya_cn.conf

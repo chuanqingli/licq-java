@@ -7,20 +7,12 @@ public class CollectionUtilImpl implements CollectionUtil{
 
     private final static DataUtil __datautil = DataUtilImpl.getInstance();
 
-    protected Class __cls = null;
+    private static CollectionUtil __instance = new CollectionUtilImpl();
 
-    public CollectionUtilImpl(){}
+    private CollectionUtilImpl(){}
 
-    public CollectionUtilImpl(Class cls){
-        __cls = cls;
-    }
-
-    public <T> Collection<T> create(){
-        try{
-            return (Collection<T>)__cls.newInstance();
-        }catch(Exception err){
-            throw new RuntimeException("数据转换时发生异常",err);
-        }
+    public static CollectionUtil getInstance(){
+        return __instance;
     }
 
     protected final <T> T toData(Object oo,T cc){
@@ -50,29 +42,4 @@ public class CollectionUtilImpl implements CollectionUtil{
         }
         return resp;
     }
-
-
-
-
-    // public final <T> Collection<T> create(T... list){
-    //     Collection<T> resp = create();
-    //     if(resp==null||list==null)return resp;
-    //     resp.addAll(Arrays.asList(list));
-    //     return resp;
-    // }
-
-    // public final <T> Collection<T> create(T cc,Object... args){
-    //     Collection tmp = create();
-    //     tmp.addAll(Arrays.asList(args));
-    //     return create(cc,tmp);
-    // }
-
-    // public final <T> Collection<T> create(T cc,Collection args){
-    //     Collection<T> resp = create();
-    //     if(resp==null||args==null)return resp;
-    //     for(Object oo : args){
-    //         resp.add(toData(oo,cc));
-    //     }
-    //     return resp;
-    // }
 }
