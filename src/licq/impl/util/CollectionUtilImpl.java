@@ -3,9 +3,7 @@ package licq.impl.util;
 import licq.util.*;
 import java.util.*;
 
-public class CollectionUtilImpl implements CollectionUtil{
-
-    private final static DataUtil __datautil = DataUtilImpl.getInstance();
+public final class CollectionUtilImpl implements CollectionUtil{
 
     private static CollectionUtil __instance = new CollectionUtilImpl();
 
@@ -15,23 +13,29 @@ public class CollectionUtilImpl implements CollectionUtil{
         return __instance;
     }
 
-    protected final <T> T toData(Object oo,T cc){
+    private <T> T toData(Object oo,T cc){
         return toData(oo,cc,false);
     }
     //空或异常时，返回默认值;bthrow异常时是否抛出
-    protected final <T> T toData(Object oo,T cc,boolean isthrow){
-        return __datautil.toData(oo,cc,isthrow);
+    private <T> T toData(Object oo,T cc,boolean isthrow){
+        return DataUtilImpl.getInstance().toData(oo,cc,isthrow);
     }
 
-    public <T> Collection<T> create(Collection<T> resp,T[] list){
-        if(resp==null||list==null)return resp;
-        resp.addAll(Arrays.asList(list));
+    public <T> Collection<T> create(Collection<T> resp,T[] args){
+        if(resp==null||args==null)return resp;
+        resp.addAll(Arrays.asList(args));
         return resp;
     }
 
-    public <T> Collection<T> create(Collection<T> resp,T cc,Object[] list){
-        if(resp==null||list==null)return resp;
-        Collection ccc = Arrays.asList(list);
+    public <T> Collection<T> create(Collection<T> resp,Collection<T> args){
+        if(resp==null||args==null)return resp;
+        resp.addAll(args);
+        return resp;
+    }
+
+    public <T> Collection<T> create(Collection<T> resp,T cc,Object[] args){
+        if(resp==null||args==null)return resp;
+        Collection ccc = Arrays.asList(args);
         return create(resp,cc,ccc);
     }
 

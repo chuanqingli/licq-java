@@ -22,32 +22,48 @@ public final class DataUtilImpl implements DataUtil{
         System.out.println(t.getClass().getName());
     }
 
-    private <T> T toData(Class cccls,String ss,T cc,boolean isthrow){
+    @SuppressWarnings(value="unchecked")
+    private <K,T> T toData(Class cccls,K val,Class valcls,T cc,boolean isthrow){
+
+
         try{
-            Constructor c1=cccls.getDeclaredConstructor(new Class[]{String.class});
-            return (T)c1.newInstance(new Object[]{ss});
+            Constructor c1=cccls.getDeclaredConstructor(new Class[]{valcls});
+            return (T)c1.newInstance(new Object[]{val});
         }catch(Exception err){
             if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
             return cc;
         }
     }
 
-    private <T> T toData_date(Class cccls,long ltime,T cc,boolean isthrow){
-        try{
-            Constructor c1=cccls.getDeclaredConstructor(new Class[]{long.class});
-            Object obj = c1.newInstance(new Object[]{ltime});
+    // @SuppressWarnings(value="unchecked")
+    // private <T> T toData(Class cccls,String ss,T cc,boolean isthrow){
+    //     try{
+    //         Constructor c1=cccls.getDeclaredConstructor(new Class[]{String.class});
+    //         return (T)c1.newInstance(new Object[]{ss});
+    //     }catch(Exception err){
+    //         if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
+    //         return cc;
+    //     }
+    // }
 
-            System.out.println(cccls + "=====" + ltime + "=====" + obj);
+    // @SuppressWarnings(value="unchecked")
+    // private <T> T toData_date(Class cccls,long ltime,T cc,boolean isthrow){
+    //     try{
+    //         Constructor c1=cccls.getDeclaredConstructor(new Class[]{long.class});
+    //         Object obj = c1.newInstance(new Object[]{ltime});
 
-            return (T)obj;
-        }catch(Exception err){
-            if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
-            return cc;
-        }
-    }
+    //         System.out.println(cccls + "=====" + ltime + "=====" + obj);
+
+    //         return (T)obj;
+    //     }catch(Exception err){
+    //         if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
+    //         return cc;
+    //     }
+    // }
 
 
     //空或异常时，返回默认值;bthrow异常时是否抛出
+    @SuppressWarnings(value="unchecked")
     public <T> T toData(Object oo,T cc,boolean isthrow){
         if(oo==null||cc==null)return cc;
 
@@ -59,7 +75,7 @@ public final class DataUtilImpl implements DataUtil{
         }
 
         if(cc instanceof CharSequence){
-            return toData(cccls,oo.toString(),cc,isthrow);
+            return toData(cccls,oo.toString(),String.class,cc,isthrow);
         }
 
         if(cc instanceof Number){
@@ -73,7 +89,7 @@ public final class DataUtilImpl implements DataUtil{
                     }
                 }
             }
-            return toData(cccls,ss,cc,isthrow);
+            return toData(cccls,ss,String.class,cc,isthrow);
         }
 
         if(cc instanceof Date){
@@ -82,18 +98,18 @@ public final class DataUtilImpl implements DataUtil{
                 try{
                     Date ttt = java.sql.Timestamp.valueOf(ss);
                     System.out.println("pppp==>" + ttt);
-                    return toData_date(cccls,ttt.getTime(),cc,isthrow);
+                    return toData(cccls,ttt.getTime(),long.class,cc,isthrow);
                 }catch(Exception err){
                     if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
                     return cc;
                 }
             }else{
                 long ltime = toData(oo,0l,isthrow);
-                return toData_date(cccls,ltime,cc,isthrow);
+                return toData(cccls,ltime,long.class,cc,isthrow);
             }
         }
 
-        if(JSONNull.getInstance().equals(oo))return cc;
+        // if(JSONNull.getInstance().equals(oo))return cc;
         return (T)oo;
     }
 

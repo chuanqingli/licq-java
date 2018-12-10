@@ -40,15 +40,15 @@ public class Test{
         // System.out.println(pp);
         // System.out.println("+++++++++++++++");
         DataUtil du = DataUtilImpl.getInstance();
-        Object tt = du.toData("Sun Dec 09 15:54:47 CST 2018",new Date(0l),true);
-        // Object[] ooo = new Object[]{
-        //     // du.toData("2018-12-3 15:20:30.99",new Date(0l),true)
-        //     du.toData("2018-12-3 15:20:30.99",new Time(0l),true)
-        //     ,du.toData("2018-12-3 15:20:30.99",new Timestamp(0l),true)
+        // Object tt = du.toData("Sun Dec 09 15:54:47 CST 2018",new Date(0l),true);
+        Object[] ooo = new Object[]{
+            // du.toData("2018-12-3 15:20:30.99",new Date(0l),true)
+            du.toData("2018-12-3 15:20:30.99",new Time(0l),true)
+            ,du.toData("2018-12-3 15:20:30.99",new Timestamp(0l),true)
 
-        //            };
+                   };
 
-        // for(Object tt : ooo)
+        for(Object tt : ooo)
             System.out.println(tt.getClass() + "==>" + tt);
 
 
