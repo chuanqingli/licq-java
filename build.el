@@ -30,6 +30,8 @@ jackson-mapper-asl-1.9.13
 
 json-lib-2.4-jdk15
 commons-lang-2.5
+
+junit
 ;; fastjson-1.2.4
 ;; xom-1.2.10
 ;; xwork-core-2.2.1
