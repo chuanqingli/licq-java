@@ -1,3 +1,7 @@
+bash build.sh build-src
+bash build.sh build-uml
+
+
 emacs --script build.el run-build-cmd
 emacs --script build.el run-clear-cmd
 

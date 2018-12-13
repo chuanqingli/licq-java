@@ -1,0 +1,105 @@
+@startuml
+title 查询流程图dsfds
+scale 1280*768
+
+start
+if (condition A) then (yes)
+:Text 1;
+elseif (condition B) then (yes)
+:Text 2;
+stop
+elseif (condition C) then (yes)
+:Text 3;
+elseif (condition D) then (yes)
+:Text 4;
+else (nothing)
+:Text else;
+endif
+stop
+
+@enduml
+
+
+@startuml
+
+title 查询用例图
+scale 800*800
+
+'left to right direction
+rectangle 文学数据库2{
+
+(u2_1) as "推荐表1"
+(u2_2) as "推荐表2"
+(u2_3) as "推荐表3"
+}
+
+rectangle 文学数据库1{
+(u1_1) as "文学作品"
+(u1_2) as "重点作品"
+(u1_1)..>(u1_2) : 包括
+}
+
+@enduml
+
+
+
+@startuml
+title 查询流程图你好，测试
+scale 1280*768
+start
+
+: 判断**分页码**;
+
+: 在**数据库1**对**重点作品**\n分页，取出相应的记录;
+
+: 根据相应记录的bookid，从**数据库2**\n中取出对应的**推荐**记录;
+
+: 拼接数据，显示给查询用户;
+stop
+
+@enduml
+
+@startuml
+title **阅文付费阅读**
+scale 1280*768
+start
+repeat
+: 调用接口6，\n获取指定章节内容;
+: 解析该接口返回内容;
+if (isTaked=1?) then (该章节免费或已鉴权)
+: 取出内容返回给读者;
+stop
+else if (isTaked=0?) then (该章节收费但未鉴权)
+: 走天涯侧付费流程;
+: 调用接口7，\n做作品/章节授权;
+else (未定义的情况)
+stop
+endif
+repeat while
+
+@enduml
+
+@startuml
+title 时序图
+
+== 鉴权阶段 ==
+
+Alice -> Bob: 请求
+Bob -> Alice: 应答
+
+== 数据上传 ==
+
+Alice -> Bob: 上传数据
+note left: 这是显示在左边的备注
+
+Bob --> Canny: 转交数据
+... 不超过 5 秒钟 ...
+Canny --> Bob: 状态返回
+note right: 这是显示在右边的备注
+
+Bob -> Alice: 状态返回
+
+== 状态显示 ==
+
+Alice -> Alice: 给自己发消息
+@enduml
