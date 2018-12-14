@@ -1,5 +1,9 @@
 bash build.sh build-src
 bash build.sh build-uml
+bash build.sh build-uml2
+bash build.sh build-uml -tpdf
+bash build.sh run-class org.junit.runner.JUnitCore licq.impl.util.DateUtilImplTest
+bash build.sh clear-class licq
 
 
 emacs --script build.el run-build-cmd

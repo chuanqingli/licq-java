@@ -1,0 +1,37 @@
+@startuml
+package licq.util{
++interface DateUtil{
++{abstract}   Date toDate(CharSequence oo,boolean isthrow);
++{abstract}   Date toDate(Number oo,boolean isthrow);
++{abstract}   String format(Date oo,String panel);
++{abstract}   Date add(Date src,int field,int amount);
+}
++interface CollectionUtil{
++{abstract}   <T> Collection<T> create(Collection<T> coll,T[] args);
++{abstract}   <T> Collection<T> create(Collection<T> coll,Collection<T> args);
++{abstract}   <T> Collection<T> create(Collection<T> coll,T cc,Object[] args);
++{abstract}   <T> Collection<T> create(Collection<T> coll,T cc,Collection args);
+}
+
++interface DataUtil{
++{abstract}   <T> T toData(Object oo,T cc);
++{abstract}   <T> T toData(Object oo,T cc,boolean isthrow);
+}
+
+}
+
+package licq.impl.util{
++class DateUtilImpl implements DateUtil{
+- {static} DateUtil __instance = new DateUtilImpl();
+    + {static} DateUtil getInstance();
+
+}
++class CollectionUtilImpl implements CollectionUtil{
+}
+
++class DataUtilImpl implements DataUtil{
+}
+
+DateUtilImpl..>DataUtil:依赖
+}
+@enduml
