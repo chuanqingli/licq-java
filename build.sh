@@ -4,7 +4,7 @@
 知识点：
 COMMENT
 
-source ../build-basic/build-basic.sh
+source ../shell-func/build-basic.sh
 #覆盖source文件里的方法
 set-build-libs(){
     BUILDLIBS='

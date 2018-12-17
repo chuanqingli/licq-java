@@ -1,4 +1,17 @@
 @startuml
+/'
+以 @startuml 开始，以 @enduml 结束；
+标题用 Title 开头
+注释用 ' 开头,多行用 /' 开头 '/ 结尾
+--- 表示实线,越多越长
+... 表示虚线,越多越长
+< > 表示左右三角实心箭头
+<| |> 表示左右三角空心箭头
+o 表示菱形空心箭头
+* 表示菱形实心三角箭头
+as 设置别名
+'/
+
 title 查询流程图dsfds
 scale 1280*768
 
@@ -102,4 +115,95 @@ Bob -> Alice: 状态返回
 == 状态显示 ==
 
 Alice -> Alice: 给自己发消息
+@enduml
+
+
+@startuml
+:<math>int_0^1f(x)dx</math>;
+:<math>x^2+y_1+z_12^34</math>;
+note right
+Try also
+<math>d/dxf(x)=lim_(h->0)(f(x+h)-f(x))/h</math>
+<latex>P(y|\mathbf{x}) \mbox{ or } f(\mathbf{x})+\epsilon</latex>
+end note
+@enduml
+
+@startuml
+Bob -> Alice : Can you solve: <math>ax^2+bx+c=0</math>
+Alice --> Bob: <math>x = (-b+-sqrt(b^2-4ac))/(2a)</math>
+@enduml
+
+@startgantt
+project starts the 2018/04/09
+saturday are closed
+sunday are closed
+2018/05/01 is closed
+2018/04/17 to 2018/04/19 is closed
+[Prototype design] lasts 14 days
+[Test prototype] lasts 4 days
+[Test prototype] starts at [Prototype design]'s end
+[Prototype design] is colored in Fuchsia/FireBrick
+[Test prototype] is colored in GreenYellow/Green
+@endgantt
+
+digraph XXXX {
+Note that you can also use @startuml/@enduml instead of @startdot/@enddot. Here is a working example:
+
+@startdot
+digraph foo {
+  node [style=rounded]
+  node1 [shape=box]
+  node2 [fillcolor=yellow, style="rounded,filled", shape=diamond]
+  node3 [shape=record, label="{ a | b | c }"]
+
+  node1 -> node2 -> node3
+}
+@enddot
+
+@startuml
+(*) --> "
+{{
+salt
+{+
+<b>an example
+choose one option
+()one
+()two
+[ok]
+}
+}}
+" as choose
+
+choose -right-> "
+{{
+salt
+{+
+<b>please wait
+operation in progress
+<&clock>
+[cancel]
+}
+}}
+" as wait
+wait -right-> "
+{{
+salt
+{+
+<b>success
+congratulations!
+[ok]
+}
+}}
+" as success
+
+wait -down-> "
+{{
+salt
+{+
+<b>error
+failed, sorry
+[ok]
+}
+}}
+"
 @enduml

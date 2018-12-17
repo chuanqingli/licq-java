@@ -1,4 +1,6 @@
 @startuml
+
+!include /media/win/E/chuanqing/gitspace/shell-func/define.puml
 package licq.util{
 +interface DateUtil{
 +{abstract}   Date toDate(CharSequence oo,boolean isthrow);
@@ -22,16 +24,21 @@ package licq.util{
 
 package licq.impl.util{
 +class DateUtilImpl implements DateUtil{
-- {static} DateUtil __instance = new DateUtilImpl();
-    + {static} DateUtil getInstance();
+-{static}   __instance : DateUtil = new DateUtilImpl();
+ {static}   +  DateUtil getInstance();
 
 }
 +class CollectionUtilImpl implements CollectionUtil{
+
 }
 
 +class DataUtilImpl implements DataUtil{
+
 }
 
-DateUtilImpl..>DataUtil:依赖
+PUML_DEPENDENCY(DateUtilImpl,DataUtil)
+PUML_ASSOCIATION(CollectionUtilImpl,DataUtil)
+PUML_AGGREGATION("aaa" , "bbb",'2','5')
+PUML_COMPOSITION(猫头鹰,翅膀)
 }
 @enduml
