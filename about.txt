@@ -1,5 +1,5 @@
 bash build.sh build-src
-bash build.sh git-src
+bash build.sh git-commit
 bash build.sh build-uml
 bash build.sh build-uml src/licq/util/DateUtil.puml
 
