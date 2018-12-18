@@ -20,6 +20,10 @@ package licq.util{
 +{abstract} <T> T toData(Object oo,T cc,boolean isthrow);
 }
 
++interface UtilFactory{
+    +{abstract} T getInstance(Class cc);
+}
+
 }
 
 package licq.impl.util{

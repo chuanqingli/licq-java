@@ -4,7 +4,7 @@ import java.util.*;
 import licq.impl.util.*;
 import java.math.*;
 
-import net.sf.json.JSONNull;
+// import net.sf.json.JSONNull;
 import java.sql.Timestamp;
 import java.sql.Time;
 
@@ -39,7 +39,7 @@ public class Test{
         // }
         // System.out.println(pp);
         // System.out.println("+++++++++++++++");
-        DataUtil du = DataUtilImpl.getInstance();
+        DataUtil du = ImplFactory.getBean(DataUtil.class);
         // Object tt = du.toData("Sun Dec 09 15:54:47 CST 2018",new Date(0l),true);
         Object[] ooo = new Object[]{
             // du.toData("2018-12-3 15:20:30.99",new Date(0l),true)

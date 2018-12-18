@@ -5,17 +5,9 @@ import java.util.*;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
 public final class DateUtilImpl implements DateUtil{
-
-    private final static DateUtil __instance = new DateUtilImpl();
-
-    private DateUtilImpl(){}
-    public static DateUtil getInstance(){
-        return __instance;
-    }
-
     //空或异常时，返回默认值;bthrow异常时是否抛出
     private <T> T toData(Object oo,T cc,boolean isthrow){
-        return DataUtilImpl.getInstance().toData(oo,cc,isthrow);
+        return ImplFactory.getBean(DataUtil.class).toData(oo,cc,isthrow);
     }
 
     private String createString(Object... args){

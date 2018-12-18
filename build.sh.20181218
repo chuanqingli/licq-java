@@ -21,11 +21,17 @@ commons-logging-1.1.1
 junit
 
 
+org.springframework.aop-3.1.1.RELEASE
+org.springframework.asm-3.1.1.RELEASE
+org.springframework.aspects-3.1.1.RELEASE
 org.springframework.beans-3.1.1.RELEASE
 org.springframework.context-3.1.1.RELEASE
 org.springframework.core-3.1.1.RELEASE
-org.springframework.asm-3.1.1.RELEASE
 org.springframework.expression-3.1.1.RELEASE
+org.springframework.jdbc-3.1.1.RELEASE
+org.springframework.transaction-3.1.1.RELEASE
+org.springframework.web-3.1.1.RELEASE
+org.springframework.web.servlet-3.1.1.RELEASE
 
 '
 <<'COMMENT'
@@ -37,6 +43,8 @@ json-lib-2.4-jdk15
 
 org.springframework.aop-3.1.1.RELEASE
 org.springframework.aspects-3.1.1.RELEASE
+org.springframework.context-3.1.1.RELEASE
+org.springframework.expression-3.1.1.RELEASE
 org.springframework.jdbc-3.1.1.RELEASE
 org.springframework.transaction-3.1.1.RELEASE
 org.springframework.web-3.1.1.RELEASE

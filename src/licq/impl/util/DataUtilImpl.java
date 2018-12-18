@@ -4,28 +4,13 @@ import licq.util.*;
 import java.util.*;
 import java.math.*;
 import java.lang.reflect.*;
-import net.sf.json.JSONNull;
 public final class DataUtilImpl implements DataUtil{
-
-    private final static DataUtil __instance = new DataUtilImpl();
-
-    private DataUtilImpl(){}
-    public static DataUtil getInstance(){
-        return __instance;
-    }
-
     public <T> T toData(Object oo,T cc){
         return toData(oo,cc,false);
     }
 
-    public <T extends CharSequence , Number> void f(T t){
-        System.out.println(t.getClass().getName());
-    }
-
     @SuppressWarnings(value="unchecked")
     private <K,T> T toData(Class cccls,K val,Class valcls,T cc,boolean isthrow){
-
-
         try{
             Constructor c1=cccls.getDeclaredConstructor(new Class[]{valcls});
             return (T)c1.newInstance(new Object[]{val});
@@ -34,33 +19,6 @@ public final class DataUtilImpl implements DataUtil{
             return cc;
         }
     }
-
-    // @SuppressWarnings(value="unchecked")
-    // private <T> T toData(Class cccls,String ss,T cc,boolean isthrow){
-    //     try{
-    //         Constructor c1=cccls.getDeclaredConstructor(new Class[]{String.class});
-    //         return (T)c1.newInstance(new Object[]{ss});
-    //     }catch(Exception err){
-    //         if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
-    //         return cc;
-    //     }
-    // }
-
-    // @SuppressWarnings(value="unchecked")
-    // private <T> T toData_date(Class cccls,long ltime,T cc,boolean isthrow){
-    //     try{
-    //         Constructor c1=cccls.getDeclaredConstructor(new Class[]{long.class});
-    //         Object obj = c1.newInstance(new Object[]{ltime});
-
-    //         System.out.println(cccls + "=====" + ltime + "=====" + obj);
-
-    //         return (T)obj;
-    //     }catch(Exception err){
-    //         if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
-    //         return cc;
-    //     }
-    // }
-
 
     //空或异常时，返回默认值;bthrow异常时是否抛出
     @SuppressWarnings(value="unchecked")
@@ -97,7 +55,6 @@ public final class DataUtilImpl implements DataUtil{
             if(ss.indexOf("-")>0||ss.indexOf(":")>0){
                 try{
                     Date ttt = java.sql.Timestamp.valueOf(ss);
-                    System.out.println("pppp==>" + ttt);
                     return toData(cccls,ttt.getTime(),long.class,cc,isthrow);
                 }catch(Exception err){
                     if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
@@ -112,14 +69,4 @@ public final class DataUtilImpl implements DataUtil{
         // if(JSONNull.getInstance().equals(oo))return cc;
         return (T)oo;
     }
-
-    // public <T> T[] toDatas(Object[] oo,T cc){
-    //     if(oo==null)return null;
-    //     List<T>
-    //     T[] resp = new T[oo.length];
-    //     for(int i=0;i<resp.length;i++){
-    //         resp[i] = toData(oo[i],cc);
-    //     }
-    //     return resp;
-    // }
 }
