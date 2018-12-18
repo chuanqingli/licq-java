@@ -27,8 +27,9 @@ public final class DateUtilImpl implements DateUtil{
         return buf.toString();
     }
 
-    private Timestamp getMinDate(){
+    private Date getMinDate(){
         return Timestamp.valueOf("1000-1-1 0:0:0");
+        // return Timestamp.valueOf("1000-1-1 0:0:0");
     }
 
     //字符转日期
@@ -50,6 +51,15 @@ public final class DateUtilImpl implements DateUtil{
             }
         }
 
+        // SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        // java.util.Date date = null;
+        // try {
+        //     return sf.parse(createString(dd[0],"-",dd[1],"-",dd[2]," ",dd[3],":",dd[4],":",dd[5],".",dd[6]));
+        // } catch (Exception err) {
+        //     if(isthrow)throw new RuntimeException("时间转换异常",err);
+        // }
+        // return getMinDate();
+
         try{
             return java.sql.Timestamp.valueOf(createString(dd[0],"-",dd[1],"-",dd[2]," ",dd[3],":",dd[4],":",dd[5],".",dd[6]));
         }catch(Exception err){
@@ -61,6 +71,7 @@ public final class DateUtilImpl implements DateUtil{
     public Date toDate(Number oo,boolean isthrow){
         long ltime = toData(oo,0l,isthrow);
         try{
+            // return new Date(ltime);
             return new Timestamp(ltime);
         }catch(Exception err){
             if(isthrow)throw new RuntimeException("时间转换异常",err);
