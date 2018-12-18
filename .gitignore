@@ -1,2 +1,4 @@
 *.class
+*.png
+png
 WebRoot/WEB-INF/classes/licq

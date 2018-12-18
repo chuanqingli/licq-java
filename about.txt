@@ -1,3 +1,13 @@
+bash build.sh build-src
+bash build.sh git-commit
+bash build.sh build-uml
+bash build.sh build-uml src/licq/util/DateUtil.puml
+
+bash build.sh run-class org.junit.runner.JUnitCore licq.util.SpringContextTest
+bash build.sh run-class org.junit.runner.JUnitCore licq.impl.util.DateUtilImplTest
+bash build.sh clear-class licq
+
+
 emacs --script build.el run-build-cmd
 emacs --script build.el run-clear-cmd
 

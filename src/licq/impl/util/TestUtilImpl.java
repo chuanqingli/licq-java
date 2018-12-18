@@ -4,13 +4,16 @@ import licq.util.*;
 import java.util.*;
 import java.math.*;
 import java.lang.reflect.*;
-public final class DataUtilImpl implements DataUtil{
+
+public class TestUtilImpl implements DataUtil{// implements TestUtil
     public <T> T toData(Object oo,T cc){
         return toData(oo,cc,false);
     }
 
     @SuppressWarnings(value="unchecked")
     private <K,T> T toData(Class cccls,K val,Class valcls,T cc,boolean isthrow){
+
+
         try{
             Constructor c1=cccls.getDeclaredConstructor(new Class[]{valcls});
             return (T)c1.newInstance(new Object[]{val});
@@ -20,7 +23,6 @@ public final class DataUtilImpl implements DataUtil{
         }
     }
 
-    //空或异常时，返回默认值;bthrow异常时是否抛出
     @SuppressWarnings(value="unchecked")
     public <T> T toData(Object oo,T cc,boolean isthrow){
         if(oo==null||cc==null)return cc;
@@ -69,4 +71,14 @@ public final class DataUtilImpl implements DataUtil{
         // if(JSONNull.getInstance().equals(oo))return cc;
         return (T)oo;
     }
+    // private static TestUtilImpl<T> __instance = new TestUtilImpl<T>();
+
+    // public Class<T> __cls = Collection<T>.class;
+
+    // private TestUtilImpl(){}
+
+    // public static TestUtilImpl getInstance(){
+    //     return __instance;
+    // }
+
 }

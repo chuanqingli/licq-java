@@ -4,21 +4,12 @@ import licq.util.*;
 import java.util.*;
 
 public final class CollectionUtilImpl implements CollectionUtil{
-
-    private static CollectionUtil __instance = new CollectionUtilImpl();
-
-    private CollectionUtilImpl(){}
-
-    public static CollectionUtil getInstance(){
-        return __instance;
-    }
-
     private <T> T toData(Object oo,T cc){
         return toData(oo,cc,false);
     }
     //空或异常时，返回默认值;bthrow异常时是否抛出
     private <T> T toData(Object oo,T cc,boolean isthrow){
-        return DataUtilImpl.getInstance().toData(oo,cc,isthrow);
+        return ImplFactory.getBean(DataUtil.class).toData(oo,cc,isthrow);
     }
 
     public <T> Collection<T> create(Collection<T> resp,T[] args){
