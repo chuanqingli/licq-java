@@ -34,6 +34,15 @@ public class PackageUtilImpl implements PackageUtil{
         }
     }
 
+    public Map<Class,Class> getInterfacesMap(Map<String,String> pakmap){
+        Map<Class,Class> map = new HashMap<Class,Class>();
+        if(pakmap==null||pakmap.size()<=0)return map;
+        for(Map.Entry<String,String> entry : pakmap.entrySet()){
+            Map<Class,Class> map0 = getInterfacesMap(entry.getKey(),entry.getValue());
+            map.putAll(map0);
+        }
+        return map;
+    }
     public Map<Class,Class> getInterfacesMap(String keyPackage,String valPackage){
         Map<Class,Class> map = new HashMap<Class,Class>();
         if(keyPackage==null||keyPackage.length()<=0)return map;
