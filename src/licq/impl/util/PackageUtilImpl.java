@@ -11,9 +11,8 @@ public class PackageUtilImpl implements PackageUtil{
      * 得到与cls同包的所有类
      *
      * @param cls
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @param subPath 是否查找子目录
+     * @return List<Class>
      */
     public List<Class> getClasses(Class cls,boolean subPath){
         return getClasses(cls.getPackage().getName(),subPath);
@@ -23,9 +22,8 @@ public class PackageUtilImpl implements PackageUtil{
      * 从一个包中查到所有的类
      *
      * @param packageName
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @param subPath 是否查找子目录
+     * @return List<Class>
      */
     public List<Class> getClasses(String packageName, boolean subPath){
         List<Class> classes = new ArrayList<Class>();
@@ -37,10 +35,12 @@ public class PackageUtilImpl implements PackageUtil{
     }
 
     public Map<Class,Class> getInterfacesMap(String keyPackage,String valPackage){
-        List<Class> kset = getClasses(keyPackage,false);
-        // Set<Class> vset = new HashSet(getClasses(valPackage,false));
-
         Map<Class,Class> map = new HashMap<Class,Class>();
+        if(keyPackage==null||keyPackage.length()<=0)return map;
+        if(valPackage==null||valPackage.length()<=0)return map;
+        if(keyPackage.equals(valPackage))return map;
+        List<Class> kset = getClasses(keyPackage,false);
+
         for(Class key : kset){
             if(!key.isInterface())continue;
             String sval = valPackage + "." + key.getSimpleName() + "Impl";
@@ -50,15 +50,8 @@ public class PackageUtilImpl implements PackageUtil{
             }catch(ClassNotFoundException err){
                 continue;
             }
-            // if(!vset.contains(val))continue;
             if(!key.isAssignableFrom(val))continue;
             map.put(key,val);
-
-            // for(Class val : vset){
-            //     if(key.isAssignableFrom(val)){
-            //         map.put(key,val);
-            //     }
-            // }
         }
         return map;
     }
