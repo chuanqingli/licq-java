@@ -8,7 +8,7 @@ public final class StringUtilImpl{// implements StringUtil
     public <A extends Appendable> A create(A buf,Object o1,Object o2,Object[] objs){
         return create(buf,o1,o2,Arrays.asList(objs));
     }
-    public <A extends Appendable> A create(A buf,Object o1,Object o2,List objs){
+    public <A extends Appendable> A create(A buf,Object o1,Object o2,Collection objs){
         try{
             return create00(buf,o1,o2,objs);
         }catch(IOException err){
@@ -21,7 +21,7 @@ public final class StringUtilImpl{// implements StringUtil
         return String.valueOf(obj);
     }
 
-    private <A extends Appendable> A create00(A buf,Object o1,Object o2,List objs)throws IOException{
+    private <A extends Appendable> A create00(A buf,Object o1,Object o2,Collection objs)throws IOException{
         if(objs==null||objs.size()<=0)return buf;
         String s1 = toString(o1);
         String s2 = toString(o2);

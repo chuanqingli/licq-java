@@ -38,7 +38,7 @@ public class SpringContextTest{
     }
 
 
-    public <A extends Appendable> A create(A buf,Object o1,Object o2,List objs)throws IOException{
+    public <A extends Appendable> A create(A buf,Object o1,Object o2,Collection objs)throws IOException{
         if(objs==null||objs.size()<=0)return buf;
         String s1 = toString(o1);
         String s2 = toString(o2);
@@ -56,9 +56,9 @@ public class SpringContextTest{
         StringBuilder ss = new StringBuilder(1024);
 
         CollectionUtil cutil = ImplFactory.getBean(CollectionUtil.class);
-        Collection<String> list = cutil.create(new LinkedHashSet<String>(),"",new Object[]{1,2,3,4,5,6,"99",88.5,"黎明"});
+        Set list = cutil.create(new LinkedHashSet<String>(),"",new Object[]{1,2,3,4,5,6,"99",88.5,"黎明"});
 
-        ss = create(ss,"\"","\"",new ArrayList<String>(list));
+        ss = create(ss,"\"","\"",list);
         System.out.println(":" + ss + ":");
     }
 
