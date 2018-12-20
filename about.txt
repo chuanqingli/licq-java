@@ -3,11 +3,12 @@ bash build.sh git-commit
 bash build.sh build-uml
 bash build.sh build-uml src/licq/util/DateUtil.puml
 
-bash build.sh run-class org.junit.runner.JUnitCore licq.util.SpringContextTest
 bash build.sh build-src && bash build.sh run-class org.junit.runner.JUnitCore licq.util.SpringContextTest
 bash build.sh run-class org.junit.runner.JUnitCore licq.util.SpringContextTest
 bash build.sh clear-class licq
 
+xfce4-terminal 2
+exo-open --launch TerminalEmulator
 
 emacs --script build.el run-build-cmd
 emacs --script build.el run-clear-cmd

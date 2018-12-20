@@ -18,6 +18,11 @@ log4j-1.2.15
 commons-lang-2.5
 
 commons-logging-1.1.1
+
+jackson-core-asl-1.9.13
+jackson-mapper-asl-1.9.13
+
+
 junit
 
 
@@ -29,8 +34,6 @@ org.springframework.expression-3.1.1.RELEASE
 
 '
 <<'COMMENT'
-jackson-core-asl-1.9.13
-jackson-mapper-asl-1.9.13
 
 
 json-lib-2.4-jdk15

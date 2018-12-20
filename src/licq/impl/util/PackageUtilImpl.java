@@ -43,6 +43,7 @@ public class PackageUtilImpl implements PackageUtil{
         }
         return map;
     }
+    @SuppressWarnings(value="unchecked")
     public Map<Class,Class> getInterfacesMap(String keyPackage,String valPackage){
         Map<Class,Class> map = new HashMap<Class,Class>();
         if(keyPackage==null||keyPackage.length()<=0)return map;

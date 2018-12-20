@@ -18,20 +18,25 @@ public final class CollectionUtilImpl implements CollectionUtil{
         return resp;
     }
 
-    @SuppressWarnings(value="unchecked")
-    public <A extends Collection> A create(A resp,A args){
+    public <T> Collection<T> create(Collection<T> resp,T[] args){
+        if(resp==null||args==null)return resp;
+        resp.addAll(Arrays.asList(args));
+        return resp;
+    }
+
+    public <T> Collection<T> create(Collection<T> resp,Collection<T> args){
         if(resp==null||args==null)return resp;
         resp.addAll(args);
         return resp;
     }
 
-    public <A extends Collection<T>,T> A create(A resp,T cc,Object[] args){
+    public <T> Collection<T> create(Collection<T> resp,T cc,Object[] args){
         if(resp==null||args==null)return resp;
         Collection ccc = Arrays.asList(args);
         return create(resp,cc,ccc);
     }
 
-    public <A extends Collection<T>,T> A create(A resp,T cc,Collection args){
+    public <T> Collection<T> create(Collection<T> resp,T cc,Collection args){
         if(resp==null||args==null)return resp;
         for(Object oo : args){
             resp.add(toData(oo,cc));
