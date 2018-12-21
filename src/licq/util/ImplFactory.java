@@ -22,7 +22,7 @@ public class ImplFactory{
             try{
                 obj = value.newInstance();
             }catch(Exception err){
-                throw new RuntimeException(err);
+                throw new RuntimeException(value.getName() + "构造失败!",err);
             }
             resp.put(key,obj);
         }
@@ -31,7 +31,9 @@ public class ImplFactory{
 
     @SuppressWarnings(value="unchecked")
     public static <T> T getBean(Class<T> cls){
-        return (T)__map.get(cls);
+        Object obj = __map.get(cls);
+        if(obj==null)throw new RuntimeException(cls.getName() + "找不到!");
+        return (T)obj;
     }
 
 

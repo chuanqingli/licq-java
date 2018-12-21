@@ -4,7 +4,7 @@ import licq.util.*;
 import java.io.*;
 import java.util.*;
 
-public final class StringUtilImpl{// implements StringUtil
+public final class StringUtilImpl implements StringUtil{
     public <A extends Appendable> A create(A buf,Object o1,Object o2,Object[] objs){
         return create(buf,o1,o2,Arrays.asList(objs));
     }
@@ -14,6 +14,22 @@ public final class StringUtilImpl{// implements StringUtil
         }catch(IOException err){
             throw new RuntimeException("数据转化时异常",err);
         }
+    }
+
+    //按指定长度分割字符串
+    public List<String> split(String sss,List<Integer> len){
+        List<String> resp = new ArrayList<String>();
+        if(sss==null||sss.length()<=0||len==null||len.size()<=0)return resp;
+        StringBuilder stime = new StringBuilder(sss);
+        for(int lll : len){
+            if(stime.length()<lll)break;
+            resp.add(stime.substring(0,lll));
+            stime.delete(0,lll);
+            // stime = stime.substring(lll);
+        }
+        if(resp.size()>=len.size())return resp;
+        if(stime.length()>0)resp.add(stime.toString());
+        return resp;
     }
 
     private String toString(Object obj){

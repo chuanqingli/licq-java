@@ -5,23 +5,23 @@ import java.util.*;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
 public final class DateUtilImpl implements DateUtil{
+    private static Date __mindate = Timestamp.valueOf("1000-01-01 00:00:00.0");
     //空或异常时，返回默认值;bthrow异常时是否抛出
     private <T> T toData(Object oo,T cc,boolean isthrow){
         return ImplFactory.getBean(DataUtil.class).toData(oo,cc,isthrow);
     }
 
-    private String createString(Object... args){
+    private String packTimeNumber(Object... args){
         if(args==null||args.length<=0)return "";
         StringBuilder buf = new StringBuilder(1024);
         for(Object obj : args){
+            if(obj instanceof Integer){
+                int nnn = Integer.parseInt(obj.toString());
+                if(nnn<10)buf.append(0);
+            }
             buf.append(obj);
         }
         return buf.toString();
-    }
-
-    private Date getMinDate(){
-        return Timestamp.valueOf("1000-1-1 0:0:0");
-        // return Timestamp.valueOf("1000-1-1 0:0:0");
     }
 
     //字符转日期
@@ -30,33 +30,24 @@ public final class DateUtilImpl implements DateUtil{
 
         String ssss = oo.toString().trim().replaceAll("[^0-9]+",",");
         String[] ss = ssss.split(",");
-        int[] dd = new int[]{0,0,0,0,0,0,0};
+        int[] dd = new int[]{1000,1,1,0,0,0,0};
         int[] min = new int[]{1000,1,1,0,0,0,0};
-        int[] max = new int[]{9999,12,31,59,59,59,999999999};
+        int[] max = new int[]{9999,12,31,59,59,59,999};//999999
 
-        int nlen=(ss.length>min.length)?min.length:ss.length;
-        for(int i=0;i<nlen;i++){
+        for(int i=0;i<ss.length&&i<min.length;i++){
             dd[i]=toData(ss[i],0,isthrow);
             if(dd[i]<min[i]||dd[i]>max[i]){
                 if(isthrow)throw new RuntimeException("时间转换异常:" + i + "," + dd[i]);
-                return getMinDate();
+                return __mindate;
             }
         }
 
-        // SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        // java.util.Date date = null;
-        // try {
-        //     return sf.parse(createString(dd[0],"-",dd[1],"-",dd[2]," ",dd[3],":",dd[4],":",dd[5],".",dd[6]));
-        // } catch (Exception err) {
-        //     if(isthrow)throw new RuntimeException("时间转换异常",err);
-        // }
-        // return getMinDate();
-
+        String sss = packTimeNumber(dd[0],"-",dd[1],"-",dd[2]," ",dd[3],":",dd[4],":",dd[5],".",dd[6]);
         try{
-            return java.sql.Timestamp.valueOf(createString(dd[0],"-",dd[1],"-",dd[2]," ",dd[3],":",dd[4],":",dd[5],".",dd[6]));
+            return java.sql.Timestamp.valueOf(sss);
         }catch(Exception err){
-            if(isthrow)throw new RuntimeException("时间转换异常",err);
-            return getMinDate();
+            if(isthrow)throw new RuntimeException("时间(" + sss + ")转换异常",err);
+            return __mindate;
         }
     }
     //数字转日期
@@ -66,8 +57,8 @@ public final class DateUtilImpl implements DateUtil{
             // return new Date(ltime);
             return new Timestamp(ltime);
         }catch(Exception err){
-            if(isthrow)throw new RuntimeException("时间转换异常",err);
-            return getMinDate();
+            if(isthrow)throw new RuntimeException("时间long(" + ltime + ")转换异常",err);
+            return __mindate;
         }
     }
     //yyyy-MM-dd HH:mm:ss.SSS

@@ -51,13 +51,12 @@ public final class DataUtilImpl implements DataUtil{
         }
 
         if(cc instanceof Date){
-            String ss = oo.toString();
-            if(ss.indexOf("-")>0||ss.indexOf(":")>0){
+            String ss = oo.toString().trim();
+            if(ss.matches(".*[^0-9]+.*")){//含有非数字的情况
                 try{
-                    Date ttt = java.sql.Timestamp.valueOf(ss);
-                    return toData(cccls,ttt.getTime(),long.class,cc,isthrow);
+                    return (T)ImplFactory.getBean(DateUtil.class).toDate(ss,true);
                 }catch(Exception err){
-                    if(isthrow)throw new RuntimeException("数据转换时发生异常",err);
+                    if(isthrow)throw new RuntimeException("数据(" + ss + ")转换时发生异常",err);
                     return cc;
                 }
             }else{
@@ -66,7 +65,6 @@ public final class DataUtilImpl implements DataUtil{
             }
         }
 
-        // if(JSONNull.getInstance().equals(oo))return cc;
         return (T)oo;
     }
 }

@@ -31,34 +31,22 @@ public class SpringContextTest{
 
 
     }
-
-    private String toString(Object obj){
-        if(obj==null)return "";
-        return String.valueOf(obj);
-    }
-
-
-    public <A extends Appendable> A create(A buf,Object o1,Object o2,Collection objs)throws IOException{
-        if(objs==null||objs.size()<=0)return buf;
-        String s1 = toString(o1);
-        String s2 = toString(o2);
-        for(Object obj : objs){
-            String ss = toString(obj);
-            buf.append(s1);
-            buf.append(ss);
-            buf.append(s2);
-        }
-        return buf;
-    }
-
     @Test
-    public void stringtest()throws IOException{
+    public void datetest(){
+        String ttt = "2017-7-5 14:30";
+        JsonUtil jutil = ImplFactory.getBean(JsonUtil.class);
+        Date tt = jutil.toBean(ttt,Timestamp.class);
+        System.out.println(tt);
+    }
+
+    public void stringtest(){
         StringBuilder ss = new StringBuilder(1024);
 
         CollectionUtil cutil = ImplFactory.getBean(CollectionUtil.class);
+        StringUtil sutil = ImplFactory.getBean(StringUtil.class);
         Set list = cutil.create(new LinkedHashSet<String>(),"",new Object[]{1,2,3,4,5,6,"99",88.5,"黎明"});
 
-        ss = create(ss,"\"","\"",list);
+        ss = sutil.create(ss,"\"","\"",list);
         System.out.println(":" + ss + ":");
     }
 
