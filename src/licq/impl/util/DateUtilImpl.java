@@ -24,6 +24,49 @@ public final class DateUtilImpl implements DateUtil{
         return buf.toString();
     }
 
+    public long getTime(Object oo,boolean isthrow){
+        if(oo==null)return 0;
+        if(oo instanceof Date){
+            Date ttt = (Date)oo;
+            return ttt.getTime();
+        }
+        if(oo instanceof Number){
+            return toData(oo,0l,isthrow);
+        }
+        if(oo instanceof String){
+            return getTime00((String)oo,isthrow);
+        }
+        return 0;
+    }
+
+    private long getTime00(String oo,boolean isthrow){
+        if(oo==null||oo.length()<=0)return 0;
+        String ssss = oo.trim().replaceAll("[^0-9]+",",");
+        String[] ss = ssss.split(",");
+        int[] dd = new int[]{1000,1,1,0,0,0,0};
+        int[] min = new int[]{1000,1,1,0,0,0,0};
+        int[] max = new int[]{9999,12,31,59,59,59,999};//999999
+
+        for(int i=0;i<ss.length&&i<min.length;i++){
+            dd[i]=toData(ss[i],0,isthrow);
+            if(dd[i]<min[i]||dd[i]>max[i]){
+                if(isthrow)throw new RuntimeException("时间转换异常:" + i + "," + dd[i]);
+                return 0;
+            }
+        }
+
+        String sss = packTimeNumber(dd[0],"-",dd[1],"-",dd[2]," ",dd[3],":",dd[4],":",dd[5],".",dd[6]);
+        try{
+            return java.sql.Timestamp.valueOf(sss).getTime();
+        }catch(Exception err){
+            if(isthrow)throw new RuntimeException("时间(" + sss + ")转换异常",err);
+        }
+        return 0;
+    }
+
+
+
+
     //字符转日期
     public Date toDate(CharSequence oo,boolean isthrow){
         if(oo==null)return null;
