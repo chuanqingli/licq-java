@@ -1,0 +1,25 @@
+@startuml
+
+!include /media/win/E/chuanqing/gitspace/shell-func/define.puml
+package iterator{
+    +interface Aggregate{
+        +{abstract} Iterator iterator();
+    }
+
+    +interface Iterator{
+        +{abstract} boolean hasNext();
+        +{abstract} Object next();
+    }
+
+    +class ConcreteAggregate{
+ '       //        +Iterator iterator();'
+    }
+
+    +class ConcreteIterator{
+        -Aggregate aggregate = new ConcreteAggregate();
+    }
+PUML_IMPLEMENTS(ConcreteAggregate,Aggregate)
+PUML_IMPLEMENTS(ConcreteIterator,Iterator)
+PUML_DEPENDENCY(ConcreteIterator,Aggregate)
+}
+@enduml
