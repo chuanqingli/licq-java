@@ -1,6 +1,9 @@
 @startuml
 
 !include /media/win/E/chuanqing/gitspace/shell-func/define.puml
+
+!define PUML_DEPENDENCY(x,y) x............>y : 依赖0000
+
 package iterator{
     +interface Aggregate{
         +{abstract} Iterator iterator();

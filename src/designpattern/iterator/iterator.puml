@@ -1,0 +1,44 @@
+@startuml
+
+!include /media/win/E/chuanqing/gitspace/shell-func/define.puml
+
+package iterator{
+    +interface Aggregate{
+        +{abstract} Iterator iterator()
+    }
+
+    +interface Iterator{
+        +{abstract} boolean hasNext()
+        +{abstract} Object next()
+    }
+
+    +class BookShelf{
+        books
+            last
+            getBookAt()
+            appendBook()
+            getLength()
+            iterator()
+    }
+
+    +class BookShelfIterator{
+        bookShelf
+            index
+            hasNext()
+            next()
+    }
+    +class Book{
+        name
+            getName()
+    }
+
+        BookShelf PUML_impl Aggregate
+        BookShelfIterator PUML_impl Iterator
+        BookShelfIterator PUML_aggr BookShelf
+        BookShelf PUML_aggr Book
+        Aggregate "1" <PUML_asso> "1" Iterator : 创建 >
+
+            note "你好，测试\n测试啦" as N1
+            Aggregate . N1
+}
+@enduml
