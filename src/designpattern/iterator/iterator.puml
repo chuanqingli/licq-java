@@ -2,7 +2,8 @@
 
 !include /media/win/E/chuanqing/gitspace/shell-func/define.puml
 
-package iterator{
+
+    package iterator{
     +interface Aggregate{
         +{abstract} Iterator iterator()
     }
@@ -32,13 +33,18 @@ package iterator{
             getName()
     }
 
-        BookShelf PUML_impl Aggregate
-        BookShelfIterator PUML_impl Iterator
-        BookShelfIterator PUML_aggr BookShelf
-        BookShelf PUML_aggr Book
-        Aggregate "1" <PUML_asso> "1" Iterator : 创建 >
 
-            note "你好，测试\n测试啦" as N1
-            Aggregate . N1
 }
+
+
+
+    Aggregate -> Iterator : Creates >
+
+        BookShelf <-o BookShelfIterator
+
+        Aggregate <|.. BookShelf
+
+        Iterator <|.. BookShelfIterator
+
+        BookShelf o--> Book
 @enduml
