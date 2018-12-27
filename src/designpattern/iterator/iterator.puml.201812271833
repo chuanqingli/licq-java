@@ -1,5 +1,13 @@
 @startuml
+<<<<<<< HEAD
 package iterator{
+=======
+
+!include /media/win/E/chuanqing/gitspace/shell-func/define.puml
+
+
+    package iterator{
+>>>>>>> 0e60cb26d0c236289f111bab8f5aaa9f116654d1
     +interface Aggregate{
         +{abstract} iterator()
     }
@@ -29,10 +37,26 @@ package iterator{
             getName()
     }
 
+<<<<<<< HEAD
     Aggregate -> Iterator : Creates >
         BookShelf <-o BookShelfIterator
          Aggregate <|.. BookShelf
          Iterator <|.. BookShelfIterator
         BookShelf o--> Book
+=======
+
+>>>>>>> 0e60cb26d0c236289f111bab8f5aaa9f116654d1
 }
+
+
+
+    Aggregate -> Iterator : Creates >
+
+        BookShelf <-o BookShelfIterator
+
+        Aggregate <|.. BookShelf
+
+        Iterator <|.. BookShelfIterator
+
+        BookShelf o--> Book
 @enduml

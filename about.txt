@@ -2,7 +2,12 @@ bash build.sh build-src
 bash build.sh git-commit
 bash build.sh build-uml -language
 bash build.sh build-uml src/licq/util/DateUtil.puml
+<<<<<<< HEAD
 bash build.sh build-uml src/designpattern/TemplateMethod/TemplateMethod.puml
+=======
+bash build.sh build-uml src/designpattern/iterator/iterator.puml
+bash build.sh build-uml src/designpattern/iterator/test.puml
+>>>>>>> 0e60cb26d0c236289f111bab8f5aaa9f116654d1
 
 bash build.sh build-src && bash build.sh run-class org.junit.runner.JUnitCore licq.util.SpringContextTest
 bash build.sh build-src && bash build.sh run-class org.junit.runner.JUnitCore licq.impl.util.DataUtilImplTest
