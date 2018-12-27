@@ -1,0 +1,9 @@
+@startuml
+    title 对象适配器模式
+    !define PRINT_ITEM_TYPE abstract class
+    !include adapter_inc.puml
+
+    Main --> Print : Uses >
+        Print <|- PrintBanner
+        PrintBanner o-> Banner
+@enduml

@@ -1,0 +1,21 @@
+package adapter{
+    +class Main{
+
+    }
+
+    +PRINT_ITEM_TYPE Print{
+        +{abstract} printWeak()
+        +{abstract} printStrong()
+    }
+
+    +class PrintBanner{
+        +printWeak()
+            +printStrong()
+
+    }
+
+    +class Banner{
+        +showWithParen()
+            +showWithAster()
+    }
+}

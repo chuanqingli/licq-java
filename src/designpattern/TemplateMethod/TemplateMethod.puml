@@ -1,0 +1,34 @@
+@startuml
+    title 模板方法模式
+package templatemethod{
+
+    +abstract class AbstractDisplay{
++{abstract}        open()
++{abstract}            print()
++{abstract}            close()
++            display()
+    }
+
+    +class CharDisplay{
+        +open()
+            +print()
+            +close()
+    }
+    +class StringDisplay{
+        +open()
+            +print()
+            +close()
+            +printLine()
+    }
+}
+
+
+CharDisplay -[hidden]> StringDisplay
+AbstractDisplay <|---- (CharDisplay,StringDisplay)
+
+/'
+    AbstractDisplay <|-- CharDisplay
+    AbstractDisplay <|-- StringDisplay
+
+'/
+@enduml
